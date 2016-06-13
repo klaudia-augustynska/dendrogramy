@@ -36,10 +36,20 @@ namespace Dendrogramy.ViewModele
             this.metoda = metoda;
             RysujKolejnePo³¹czenieDendrogramu = new RysujKolejnePo³¹czenieDendrogramuCommand(this);
 
+            WykonajJak¹œD³u¿sz¹Operacjê(async () =>
+            {
+                algorytm = new HierarchicznaAnalizaSkupieñ(nazwa,metoda);
+                await algorytm.WczytajDane();
+            });
+
+        }
+
+        public void WykonajJak¹œD³u¿sz¹Operacjê(Action action)
+        {
             CoœJestMielone = true;
             Task.Run(() =>
             {
-                Thread.Sleep(5000);
+                action.Invoke();
                 Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                 {
                     CoœJestMielone = false;

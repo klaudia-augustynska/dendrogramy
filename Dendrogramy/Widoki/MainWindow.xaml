@@ -1,0 +1,69 @@
+﻿<Window x:Class="Dendrogramy.Widoki.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Dendrogramy"
+        xmlns:vm="clr-namespace:Dendrogramy.ViewModele"
+        xmlns:cnv="clr-namespace:Dendrogramy.Konwertery"
+        mc:Ignorable="d"
+        IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+        Title="Dendrogramator#" Height="350" Width="525">
+
+        <Window.Resources>
+            <vm:MainWindowViewModel x:Key="MainWindowViewModel"/>
+            <cnv:NicNieRóbConverter x:Key="NicNieRóbConverter"></cnv:NicNieRóbConverter>
+        </Window.Resources>
+
+    <Grid DataContext="{StaticResource MainWindowViewModel}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="15,15,15,15">
+            <TextBlock FontSize="14" FontWeight="Bold" Margin="0,0,0,20">Zilustruj powstawanie dendrogramów!</TextBlock>
+            
+            <TextBlock Margin="0,0,0,5">Plik wejściowy:</TextBlock>
+            <Grid Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" 
+                         Name="NazwaPlikuDanych" 
+                         Text="{Binding NazwaPlikuDanych, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <Button Name="WybierzPlikDanych"
+                        Grid.Column="1" 
+                        Content="Przeglądaj..." 
+                        Command="{Binding WybierzPlikDanych}"/>
+            </Grid>
+
+            <TextBlock Margin="0,10,0,5">Metoda skupień:</TextBlock>
+            <ComboBox ItemsSource="{Binding ListaMetodSkupień}"
+                      Name="WybranaMetodaSkupień"
+                      DisplayMemberPath="Item1"
+                      SelectedValuePath="Item2"
+                      SelectedIndex="0"></ComboBox>
+
+        </StackPanel>
+
+        <Border Grid.Row="1" Padding="30,30,30,30" Background="#efefef">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Rysuj dendrogramy"
+                        Padding="15,10"
+                        Name="RysujDendrogramy"
+                        Command="{Binding ZbudujNowyDendrogramCommand}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource NicNieRóbConverter}">
+                            <Binding Path="NazwaPlikuDanych" />
+                            <Binding ElementName="WybranaMetodaSkupień" 
+                                     Path="SelectedValue"/>
+                        </MultiBinding>
+                    </Button.CommandParameter>
+
+                </Button>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

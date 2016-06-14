@@ -55,7 +55,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Algorytm\FunkcjeMatematyczne.cs" />
     <Compile Include="Algorytm\HierarchicznaAnalizaSkupień.cs" />
+    <Compile Include="Algorytm\JednoPołączenie.cs" />
+    <Compile Include="Algorytm\ParserDanych.cs" />
+    <Compile Include="Algorytm\Rysownik.cs" />
     <Compile Include="Komendy\RysujKolejnePołączenieDendrogramuCommand.cs" />
     <Compile Include="Komendy\WybierzPlikDanychCommand.cs" />
     <Compile Include="Komendy\ZbudujNowyDendrogramCommand.cs" />

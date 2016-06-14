@@ -10,12 +10,11 @@
         IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
         Title="Dendrogramator#" Height="350" Width="525">
 
-        <Window.Resources>
-            <vm:MainWindowViewModel x:Key="MainWindowViewModel"/>
-            <cnv:NicNieRóbConverter x:Key="NicNieRóbConverter"></cnv:NicNieRóbConverter>
-        </Window.Resources>
+    <Window.Resources>
+        <cnv:NicNieRóbConverter x:Key="NicNieRóbConverter"></cnv:NicNieRóbConverter>
+    </Window.Resources>
 
-    <Grid DataContext="{StaticResource MainWindowViewModel}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>

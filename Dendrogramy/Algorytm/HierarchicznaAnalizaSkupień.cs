@@ -12,42 +12,54 @@ namespace Dendrogramy.Algorytm
     class HierarchicznaAnalizaSkupień
     {
         private MetodaSkupień metoda;
-        private string nazwa;
         private double[] liczby;
+        private double[] klastry;
+        public bool możnaŁączyćSkupiska = true;
 
-        public HierarchicznaAnalizaSkupień(string nazwa, MetodaSkupień metoda)
+        public HierarchicznaAnalizaSkupień(double[] liczby, MetodaSkupień metoda)
         {
-            this.nazwa = nazwa;
+            this.liczby = liczby;
             this.metoda = metoda;
+
+            UmieśćKażdyObiektWOsobnymKlastrze();
+            //SkonstruujMacierzOdległościMiędzyklastrowej();
         }
 
-        public async Task WczytajDane()
+        private void UmieśćKażdyObiektWOsobnymKlastrze()
         {
-            if (!File.Exists(nazwa))
-                throw new ApplicationException("Podany plik nie istnieje");
-            await ParsujPlik();
+            klastry = new double[liczby.Length];
+            for (int i = 0; i < liczby.Length; ++i)
+                klastry[i] = i;
         }
 
-        private async Task ParsujPlik()
+        private void SkonstruujMacierzOdległościMiędzyklastrowej()
         {
-            int ilośćLiniiWPliku = File.ReadLines(nazwa).Count();
-            liczby = new double[ilośćLiniiWPliku];
+            throw new NotImplementedException();
+        }
 
-            using (var sr = new StreamReader(nazwa))
-            {
-                var format = new NumberFormatInfo();
-                format.CurrencyDecimalSeparator = ".";
-                int i = 0;
-                while (!sr.EndOfStream)
-                {
-                    string linia = await sr.ReadLineAsync();
-                    string wartosc = linia.Replace(System.Environment.NewLine, string.Empty);
-                    if (wartosc.Length == 0)
-                        continue;
-                    double liczba = double.Parse(wartosc, format);
-                    liczby[i++] = liczba;
-                }
-            }
+        public JednoPołączenie PołączGrupy()
+        {
+            //ZnajdźNajbliższąParęKlastrówIPołączJe();
+            //UaktualnijMacierzOdległościMiędzyklastrowych();
+            //if (WszystkieGrupyNależąDoJednegoKlastra())
+            //    możnaŁączyćSkupiska = false;
+            //return;
+            return new JednoPołączenie();
+        }
+
+        private void ZnajdźNajbliższąParęKlastrówIPołączJe()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void UaktualnijMacierzOdległościMiędzyklastrowych()
+        {
+            throw new NotImplementedException();
+        }
+
+        private bool WszystkieGrupyNależąDoJednegoKlastra()
+        {
+            throw new NotImplementedException();
         }
     }
 }

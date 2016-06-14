@@ -6,17 +6,28 @@
         xmlns:local="clr-namespace:Dendrogramy.Widoki"
         mc:Ignorable="d"
         xmlns:vm="clr-namespace:Dendrogramy.ViewModele"
-        Title="Wykres dendrogramu" 
+        xmlns:cnv="clr-namespace:Dendrogramy.Konwertery"
+        Title="Wykres dendrogramu"
         WindowState="Maximized">
-    
+
     <Grid>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <ScrollViewer Grid.Row="0">
-            <Canvas Name="Płótno"></Canvas>
+        <ScrollViewer Grid.Row="0" Loaded="ScrollViewer_Loaded">
+
+            <ItemsControl ItemsSource="{Binding ListaKształtówDoWykresu}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas Name="Płótno" 
+                                Background="White"
+                                Height="{Binding WysokośćWykresu, Mode=TwoWay}"></Canvas>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+
         </ScrollViewer>
 
         <Border Grid.Row="1" Padding="30,30,30,30" Background="#efefef">

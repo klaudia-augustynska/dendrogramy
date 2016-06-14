@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Dendrogramy.ViewModele;
 
 namespace Dendrogramy.Widoki
 {
@@ -24,6 +25,7 @@ namespace Dendrogramy.Widoki
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new MainWindowViewModel();
         }
 
         private void WybierzPlikDanych_Click(object sender, RoutedEventArgs e)

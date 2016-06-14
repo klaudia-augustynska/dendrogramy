@@ -1,20 +1,26 @@
 using System;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Shapes;
 using System.Windows.Threading;
 using Dendrogramy.Algorytm;
 using Dendrogramy.Enumy;
 using Dendrogramy.Komendy;
+using Dendrogramy.Widoki;
 
 namespace Dendrogramy.ViewModele
 {
     public class OknoWykresuViewModel : ViewModelBase
     {
         private string nazwa;
-        private MetodaSkupieñ metoda;
-        private HierarchicznaAnalizaSkupieñ algorytm;
+        public MetodaSkupieñ metoda;
+        public double[] punkty;
 
         private bool _coœJestMielone = false;
 
@@ -35,13 +41,6 @@ namespace Dendrogramy.ViewModele
             this.nazwa = nazwa;
             this.metoda = metoda;
             RysujKolejnePo³¹czenieDendrogramu = new RysujKolejnePo³¹czenieDendrogramuCommand(this);
-
-            WykonajJak¹œD³u¿sz¹Operacjê(async () =>
-            {
-                algorytm = new HierarchicznaAnalizaSkupieñ(nazwa,metoda);
-                await algorytm.WczytajDane();
-            });
-
         }
 
         public void WykonajJak¹œD³u¿sz¹Operacjê(Action action)
@@ -55,6 +54,48 @@ namespace Dendrogramy.ViewModele
                     CoœJestMielone = false;
                 }));
             });
+        }
+
+        private ObservableCollection<UIElement> _listaKszta³tówDoWykresu = new ObservableCollection<UIElement>();
+
+        public ObservableCollection<UIElement> ListaKszta³tówDoWykresu
+        {
+            get { return _listaKszta³tówDoWykresu; }
+            set { _listaKszta³tówDoWykresu = value; }
+        }
+
+        private Size _rozmiarP³ótna;
+        public Size RozmiarP³ótna
+        {
+            get { return _rozmiarP³ótna; }
+            set
+            {
+                _rozmiarP³ótna = value;
+
+                WykonajJak¹œD³u¿sz¹Operacjê(async () =>
+                {
+                    var parser = new ParserDanych(nazwa);
+                    punkty = await parser.WczytajDane();
+                    await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    { 
+                        var rysownik = new Rysownik(_rozmiarP³ótna, _listaKszta³tówDoWykresu);
+                        double wysokoœæ = rysownik.NarysujPunktyIZwróæWysokoœæWykresu(punkty);
+                        WysokoœæWykresu = wysokoœæ;
+                    }));
+                });
+            }
+        }
+
+        private double _wysokoœæWykresu;
+
+        public double WysokoœæWykresu
+        {
+            get { return _wysokoœæWykresu; }
+            set
+            {
+                _wysokoœæWykresu = value;
+                NotifyPropertyChanged("WysokoœæWykresu");
+            }
         }
     }
 }

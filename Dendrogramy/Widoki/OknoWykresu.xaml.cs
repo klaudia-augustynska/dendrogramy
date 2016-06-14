@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,12 +22,21 @@ namespace Dendrogramy.Widoki
     /// </summary>
     public partial class OknoWykresu : Window
     {
-        private HierarchicznaAnalizaSkupień algorytm;
+        private OknoWykresuViewModel vm;
+        private string nazwa;
 
         public OknoWykresu(string nazwa, Enumy.MetodaSkupień metoda)
         {
             InitializeComponent();
+            this.nazwa = nazwa;
             this.DataContext = new OknoWykresuViewModel(nazwa,metoda);
+            vm = (OknoWykresuViewModel) DataContext;
+        }
+
+        private void ScrollViewer_Loaded(object sender, RoutedEventArgs e)
+        {
+            var rozmiarPłótna = ((ScrollViewer) sender).RenderSize;
+            vm.RozmiarPłótna = rozmiarPłótna;
         }
     }
 }

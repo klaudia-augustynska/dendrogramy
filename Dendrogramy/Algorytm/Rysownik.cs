@@ -41,6 +41,8 @@ namespace Dendrogramy.Algorytm
         private double szerokośćObszaruNaEtykietyPunktów = 0;
         private double początekWykresuOdLewej = 0;
         private double początekWykresuOdGóry = 0;
+        private double wysokośćObszaruNaEtykietyOsiX = 30;
+        private double rozdzielenieKlastrów = 2;
 
         private int krok = -20;
 
@@ -60,18 +62,52 @@ namespace Dendrogramy.Algorytm
         public double NarysujPunktyIZwróćWysokośćWykresu(double[] punkty)
         {
             wysokośćWykresu = punkty.Length*odległośćMiędzyPunktamiNaOsiY;
-            
-            początekWykresuOdGóry = margines;
+            początekWykresuOdGóry = margines + wysokośćObszaruNaEtykietyOsiX;
+
             var największaDługośćLiczby = RysujEtykietyIZwróćIchSzerokość(ref punkty);
 
             szerokośćObszaruNaEtykietyPunktów = największaDługośćLiczby*10;
             początekWykresuOdLewej = margines + szerokośćObszaruNaEtykietyPunktów;
 
             RysujTłoDlaWykresu();
+            RysujEtykietyOsiX();
 
             UmieśćPunktyNaLiście(punkty);
 
-            return wysokośćWykresu + 2*margines;
+            return wysokośćWykresu + początekWykresuOdGóry + margines;
+        }
+
+        private void RysujEtykietyOsiX()
+        {
+            double koniecWykresu = rozmiarPłótna.Width - margines;
+            int j = 0;
+            double doOdjęciaTakŻebyByłoNaŚrodku = odległośćMiędzyGrupamiNaOsiX/2;
+            for (double i = początekWykresuOdLewej; i < koniecWykresu; i += odległośćMiędzyGrupamiNaOsiX, ++j)
+            {
+                TextBlock t = new TextBlock
+                {
+                    Text = j.ToString(),
+                    FontSize = 14,
+                    Height = wysokośćObszaruNaEtykietyOsiX,
+                    Width = odległośćMiędzyGrupamiNaOsiX,
+                    TextAlignment = TextAlignment.Center,
+                    Foreground = Brushes.RosyBrown
+                };
+                t.SetValue(Canvas.TopProperty, margines);
+                t.SetValue(Canvas.LeftProperty, i - doOdjęciaTakŻebyByłoNaŚrodku);
+                listaKształtówDoWykresu.Add(t);
+                
+                Line l = new Line()
+                {
+                    X1 = i,
+                    Y1 = początekWykresuOdGóry,
+                    X2 = i,
+                    Y2 = początekWykresuOdGóry + wysokośćWykresu,
+                    StrokeThickness = 1.0,
+                    Stroke = Brushes.White
+                };
+                listaKształtówDoWykresu.Add(l);
+            }
         }
 
         /// <summary>
@@ -97,7 +133,7 @@ namespace Dendrogramy.Algorytm
         {
             Rectangle r = new Rectangle()
             {
-                Fill = Brushes.GhostWhite,
+                Fill = Brushes.LightGray,
                 Width = rozmiarPłótna.Width - margines*2 - początekWykresuOdLewej,
                 Height = wysokośćWykresu
             };
@@ -123,6 +159,7 @@ namespace Dendrogramy.Algorytm
                 {
                     Text = stringZLiczby,
                     FontSize = 14,
+                    FontWeight = FontWeights.Bold,
                     Height = odległośćMiędzyPunktamiNaOsiY,
                     Foreground = Brushes.DeepPink
                 };
@@ -146,8 +183,8 @@ namespace Dendrogramy.Algorytm
                 x1 = połączenie.PoziomZagłębienia*odległośćMiędzyGrupamiNaOsiX + początekWykresuOdLewej;
                 x2 = x1 + odległośćMiędzyGrupamiNaOsiX;
                 x3 = x1;
-                y1 = początekWykresuOdGóry + połączenie.IndeksOd*odległośćMiędzyPunktamiNaOsiY;
-                y2 = początekWykresuOdGóry + (połączenie.IndeksDo + 1) * odległośćMiędzyPunktamiNaOsiY;
+                y1 = początekWykresuOdGóry + połączenie.IndeksOd*odległośćMiędzyPunktamiNaOsiY + rozdzielenieKlastrów;
+                y2 = początekWykresuOdGóry + (połączenie.IndeksDo + 1) * odległośćMiędzyPunktamiNaOsiY - rozdzielenieKlastrów;
             }
             else
             {
@@ -215,7 +252,7 @@ namespace Dendrogramy.Algorytm
                 Y1 = y1,
                 X2 = x2,
                 Y2 = y1,
-                StrokeThickness = 1.0,
+                StrokeThickness = 2.0,
                 Stroke = Brushes.Black
             };
             listaKształtówDoWykresu.Add(l);
@@ -229,7 +266,7 @@ namespace Dendrogramy.Algorytm
                 Y1 = y1,
                 X2 = x2,
                 Y2 = y2,
-                StrokeThickness = 1.0,
+                StrokeThickness = 2.0,
                 Stroke = Brushes.Black
             };
             listaKształtówDoWykresu.Add(l);
@@ -243,7 +280,7 @@ namespace Dendrogramy.Algorytm
                 Y1 = y2,
                 X2 = x2,
                 Y2 = y2,
-                StrokeThickness = 1.0,
+                StrokeThickness = 2.0,
                 Stroke = Brushes.Black
             };
             listaKształtówDoWykresu.Add(l);

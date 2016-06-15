@@ -188,7 +188,7 @@ namespace Dendrogramy.Algorytm
             switch (metoda)
             {
                 case MetodaSkupień.PojedynczegoPołączenia:
-                    return MetodaPojedynczegoPołączenia(ref A, ref B);
+                    return FunkcjeMatematyczne.MetodaPojedynczegoPołączenia(ref A, ref B);
                 //break;
                 //case MetodaSkupień.CałkowitegoPołączenia:
                 //break;
@@ -198,21 +198,6 @@ namespace Dendrogramy.Algorytm
                 //break;
             }
             throw new NotImplementedException();
-        }
-
-        private double MetodaPojedynczegoPołączenia(ref double[] A, ref double[] B)
-        {
-            double odległość = FunkcjeMatematyczne.OdległośćEuklidesowa(A[0], B[0]);
-            for (int i = 0; i < A.Length; ++i)
-            {
-                for (int j = 0; j < B.Length; ++j)
-                {
-                    double odległość_tymczasowa = FunkcjeMatematyczne.OdległośćEuklidesowa(A[i], B[j]);
-                    if (odległość_tymczasowa < odległość)
-                        odległość = odległość_tymczasowa;
-                }
-            }
-            return odległość;
         }
 
         private bool WszystkieGrupyNależąDoJednegoKlastra()

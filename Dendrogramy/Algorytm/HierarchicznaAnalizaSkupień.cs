@@ -92,7 +92,6 @@ namespace Dendrogramy.Algorytm
                 return new JednoPołączenie()
                 {
                     IndeksOd = indeksy[najbliższaPara.Item1],
-                 //   IndeksDo = indeksy.Length > 1 ? indeksy[najbliższaPara.Item2]-1 : indeksy[0],
                     IndeksDo = indeksy[najbliższaPara.Item2+1]-1,
                     PoziomZagłębienia = poziomyZagłębień[indeksy[najbliższaPara.Item1]]
                 };

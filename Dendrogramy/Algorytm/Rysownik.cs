@@ -11,7 +11,7 @@ using System.Windows.Shapes;
 
 namespace Dendrogramy.Algorytm
 {
-    class Rysownik
+    public class Rysownik
     {
         private Size rozmiarPłótna;
         private ObservableCollection<UIElement> listaKształtówDoWykresu;

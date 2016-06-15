@@ -26,7 +26,7 @@ namespace Dendrogramy.Algorytm
 
         public bool możnaŁączyćSkupiska = true;
         
-        /// <param name="liczby">Lista liczb do pogrupowania.</param>
+        /// <param name="liczby">Lista liczb do pogrupowania, posortowana.</param>
         /// <param name="metoda">Metoda określania odległości grup</param>
         public HierarchicznaAnalizaSkupień(double[] liczby, MetodaSkupień metoda)
         {
@@ -87,12 +87,19 @@ namespace Dendrogramy.Algorytm
             UaktualnijMacierzOdległościMiędzyklastrowych();
             if (WszystkieGrupyNależąDoJednegoKlastra())
                 możnaŁączyćSkupiska = false;
-
+            var indeksy = ZmagazynujIndeksyKolejnychKlastrów();
+            if (liczbaGrup > 1)
+                return new JednoPołączenie()
+                {
+                    IndeksOd = indeksy[najbliższaPara.Item1],
+                    IndeksDo = indeksy.Length > 1 ? indeksy[najbliższaPara.Item2]-1 : indeksy[0],
+                    PoziomZagłębienia = poziomyZagłębień[indeksy[najbliższaPara.Item1]]
+                };
             return new JednoPołączenie()
             {
-                IndeksOd = najbliższaPara.Item1,
-                IndeksDo = najbliższaPara.Item2,
-                PoziomZagłębienia = poziomyZagłębień[najbliższaPara.Item1]
+                IndeksOd = 0,
+                IndeksDo = klastry.Length - 1,
+                PoziomZagłębienia = poziomyZagłębień[0]
             };
         }
 
@@ -129,12 +136,12 @@ namespace Dendrogramy.Algorytm
         {
             int[] indeksyKolejnychKlastrów = ZmagazynujIndeksyKolejnychKlastrów();
             int nowyKlaster = klastry[indeksyKolejnychKlastrów[najbliższaPara.Item1]];
-            int nowyPoziom = poziomyZagłębień[najbliższaPara.Item1];
+            int nowyPoziom = poziomyZagłębień[indeksyKolejnychKlastrów[najbliższaPara.Item1]];
 
             int przelatujOd = indeksyKolejnychKlastrów[najbliższaPara.Item1] + 1;
             int przelatujDo = -1;
-            if (najbliższaPara.Item2 + 1 == liczbaGrup)
-                przelatujDo = liczbaGrup - 1;
+            if (liczbaGrup == 2 || najbliższaPara.Item2 + 1 == liczbaGrup)
+                przelatujDo = klastry.Length - 1;
             else
                 przelatujDo = indeksyKolejnychKlastrów[najbliższaPara.Item2 + 1] - 1;
 
@@ -148,7 +155,7 @@ namespace Dendrogramy.Algorytm
                     nowyPoziom = poziomyZagłębień[i];
             }
             ++nowyPoziom;
-            for (int i = najbliższaPara.Item1; i <= najbliższaPara.Item2; ++i)
+            for (int i = przelatujOd-1; i <= przelatujDo; ++i)
             {
                 poziomyZagłębień[i] = nowyPoziom;
             }

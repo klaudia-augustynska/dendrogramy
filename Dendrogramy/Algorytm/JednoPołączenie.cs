@@ -14,5 +14,10 @@ namespace Dendrogramy.Algorytm
         public int IndeksOd;
         public int IndeksDo;
         public int PoziomZagłębienia;
+        public override string ToString()
+        {
+            return String.Format("IndeksOd:{0}\tIndeksDo:{1}\tPoziomZagłębienia:{2}", IndeksOd, IndeksDo,
+                PoziomZagłębienia);
+        }
     }
 }

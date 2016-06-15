@@ -131,7 +131,7 @@ namespace Dendrogramy.Testy.AlgorytmTesty
             JednoPołączenie grupa3 = new JednoPołączenie()
             {
                 IndeksOd = 3,
-                IndeksDo = 4,
+                IndeksDo = 5,
                 PoziomZagłębienia = 2
             };
 
@@ -151,11 +151,11 @@ namespace Dendrogramy.Testy.AlgorytmTesty
         {
             List<JednoPołączenie> grupyOd4Do9 = new List<JednoPołączenie>
             {
-                new JednoPołączenie() { IndeksOd = 0, IndeksDo =  1, PoziomZagłębienia = 2},
-                new JednoPołączenie() { IndeksOd = 0, IndeksDo =  1, PoziomZagłębienia = 3},
-                new JednoPołączenie() { IndeksOd = 0, IndeksDo =  1, PoziomZagłębienia = 4},
-                new JednoPołączenie() { IndeksOd = 0, IndeksDo =  1, PoziomZagłębienia = 5},
-                new JednoPołączenie() { IndeksOd = 0, IndeksDo =  1, PoziomZagłębienia = 6}
+                new JednoPołączenie() { IndeksOd = 0, IndeksDo =  2, PoziomZagłębienia = 2},
+                new JednoPołączenie() { IndeksOd = 0, IndeksDo =  5, PoziomZagłębienia = 3},
+                new JednoPołączenie() { IndeksOd = 0, IndeksDo =  6, PoziomZagłębienia = 4},
+                new JednoPołączenie() { IndeksOd = 0, IndeksDo =  8, PoziomZagłębienia = 5},
+                new JednoPołączenie() { IndeksOd = 0, IndeksDo =  9, PoziomZagłębienia = 6}
             };
 
             var algorytm = new HierarchicznaAnalizaSkupień(dane, MetodaSkupień.PojedynczegoPołączenia);

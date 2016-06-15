@@ -35,11 +35,12 @@ namespace Dendrogramy.Algorytm
         private ObservableCollection<UIElement> listaKształtówDoWykresu;
 
         private double odległośćMiędzyPunktamiNaOsiY = 30.0;
-        private double odległośćMiędzyGrupamiNaOsiX = 30.0;
+        private double odległośćMiędzyGrupamiNaOsiX = 60.0;
         private double margines = 15.0;
         private double wysokośćWykresu = 0;
         private double szerokośćObszaruNaEtykietyPunktów = 0;
-        private double początekWykresu = 0;
+        private double początekWykresuOdLewej = 0;
+        private double początekWykresuOdGóry = 0;
 
         private int krok = -20;
 
@@ -60,11 +61,11 @@ namespace Dendrogramy.Algorytm
         {
             wysokośćWykresu = punkty.Length*odległośćMiędzyPunktamiNaOsiY;
             
-
+            początekWykresuOdGóry = margines;
             var największaDługośćLiczby = RysujEtykietyIZwróćIchSzerokość(ref punkty);
 
             szerokośćObszaruNaEtykietyPunktów = największaDługośćLiczby*10;
-            początekWykresu = margines + szerokośćObszaruNaEtykietyPunktów;
+            początekWykresuOdLewej = margines + szerokośćObszaruNaEtykietyPunktów;
 
             RysujTłoDlaWykresu();
 
@@ -97,11 +98,11 @@ namespace Dendrogramy.Algorytm
             Rectangle r = new Rectangle()
             {
                 Fill = Brushes.GhostWhite,
-                Width = rozmiarPłótna.Width - margines*2 - początekWykresu,
+                Width = rozmiarPłótna.Width - margines*2 - początekWykresuOdLewej,
                 Height = wysokośćWykresu
             };
-            r.SetValue(Canvas.LeftProperty, początekWykresu);
-            r.SetValue(Canvas.TopProperty, margines);
+            r.SetValue(Canvas.LeftProperty, początekWykresuOdLewej);
+            r.SetValue(Canvas.TopProperty, początekWykresuOdGóry);
             listaKształtówDoWykresu.Add(r);
         }
 
@@ -125,7 +126,7 @@ namespace Dendrogramy.Algorytm
                     Height = odległośćMiędzyPunktamiNaOsiY,
                     Foreground = Brushes.DeepPink
                 };
-                t.SetValue(Canvas.TopProperty, i * odległośćMiędzyPunktamiNaOsiY + margines + 6);
+                t.SetValue(Canvas.TopProperty, i * odległośćMiędzyPunktamiNaOsiY + początekWykresuOdGóry + 6);
                 t.SetValue(Canvas.LeftProperty, margines);
                 listaKształtówDoWykresu.Add(t);
             }
@@ -142,20 +143,20 @@ namespace Dendrogramy.Algorytm
             double x1, x2, x3, y1, y2;
             if (połączenie.PoziomZagłębienia == 0)
             {
-                x1 = połączenie.PoziomZagłębienia*odległośćMiędzyGrupamiNaOsiX + początekWykresu;
+                x1 = połączenie.PoziomZagłębienia*odległośćMiędzyGrupamiNaOsiX + początekWykresuOdLewej;
                 x2 = x1 + odległośćMiędzyGrupamiNaOsiX;
                 x3 = x1;
-                y1 = margines + połączenie.IndeksOd*odległośćMiędzyPunktamiNaOsiY;
-                y2 = margines + (połączenie.IndeksDo + 1) * odległośćMiędzyPunktamiNaOsiY;
+                y1 = początekWykresuOdGóry + połączenie.IndeksOd*odległośćMiędzyPunktamiNaOsiY;
+                y2 = początekWykresuOdGóry + (połączenie.IndeksDo + 1) * odległośćMiędzyPunktamiNaOsiY;
             }
             else
             {
                 GrupaNaLiście grupa1 = ZnajdźGrupęPierwszą(połączenie);
                 GrupaNaLiście grupa2 = ZnajdźGrupęDrugą(połączenie);
 
-                x1 = (grupa1.Poziom+1) * odległośćMiędzyGrupamiNaOsiX + początekWykresu;
-                x3 = (grupa2.Poziom+1) * odległośćMiędzyGrupamiNaOsiX + początekWykresu;
-                x2 = (połączenie.PoziomZagłębienia + 1) * odległośćMiędzyGrupamiNaOsiX + początekWykresu;
+                x1 = (grupa1.Poziom+1) * odległośćMiędzyGrupamiNaOsiX + początekWykresuOdLewej;
+                x3 = (grupa2.Poziom+1) * odległośćMiędzyGrupamiNaOsiX + początekWykresuOdLewej;
+                x2 = (połączenie.PoziomZagłębienia + 1) * odległośćMiędzyGrupamiNaOsiX + początekWykresuOdLewej;
                 y1 = (grupa1.MiejsceOd + grupa1.MiejsceDo)/2;
                 y2 = (grupa2.MiejsceOd + grupa2.MiejsceDo) / 2;
 

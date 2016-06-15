@@ -93,7 +93,7 @@ namespace Dendrogramy.Algorytm
                 {
                     IndeksOd = indeksy[najbliższaPara.Item1],
                     IndeksDo = indeksy[najbliższaPara.Item2+1]-1,
-                    PoziomZagłębienia = poziomyZagłębień[indeksy[najbliższaPara.Item1]]
+                    PoziomZagłębienia = (indeksy[najbliższaPara.Item2 + 1] - 1) - (indeksy[najbliższaPara.Item1])
                 };
             if (liczbaGrup > 1)
             {
@@ -101,14 +101,14 @@ namespace Dendrogramy.Algorytm
                 {
                     IndeksOd = indeksy[najbliższaPara.Item1],
                     IndeksDo = klastry.Length - 1,
-                    PoziomZagłębienia = poziomyZagłębień[indeksy[najbliższaPara.Item1]]
+                    PoziomZagłębienia = (klastry.Length - 1) - indeksy[najbliższaPara.Item1]
                 };
             }
             return new JednoPołączenie()
             {
                 IndeksOd = 0,
                 IndeksDo = klastry.Length - 1,
-                PoziomZagłębienia = poziomyZagłębień[0]
+                PoziomZagłębienia = (klastry.Length - 1)
             };
         }
 

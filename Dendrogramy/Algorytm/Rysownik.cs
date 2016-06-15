@@ -93,7 +93,7 @@ namespace Dendrogramy.Algorytm
                     TextAlignment = TextAlignment.Center,
                     Foreground = Brushes.RosyBrown
                 };
-                t.SetValue(Canvas.TopProperty, margines);
+                t.SetValue(Canvas.TopProperty, margines + 3);
                 t.SetValue(Canvas.LeftProperty, i - doOdjęciaTakŻebyByłoNaŚrodku);
                 listaKształtówDoWykresu.Add(t);
                 
@@ -176,6 +176,9 @@ namespace Dendrogramy.Algorytm
         /// <param name="połączenie">Struktura gdzie jest napisane odkąd dokąd i w którym miejscu.</param>
         public void RysujPołączenie(JednoPołączenie połączenie)
         {
+            for (int i = dendrogram.Count; i < połączenie.PoziomZagłębienia; ++i)
+                dendrogram.Add(new List<GrupaNaLiście>());
+
             ++krok;
             double x1, x2, x3, y1, y2;
             if (połączenie.PoziomZagłębienia == 0)

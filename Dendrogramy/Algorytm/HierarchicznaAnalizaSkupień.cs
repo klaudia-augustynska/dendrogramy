@@ -156,8 +156,6 @@ namespace Dendrogramy.Algorytm
 
         private double[] WeźElementyGrupy(int grupa)
         {
-            //int indeksPierwszego = klastry.First(x => x == grupa);
-            //int indeksOstatniego = klastry.Last(x => x == grupa);
             int indeksPierwszego = 0;
             for (int i = 0; i < klastry.Length; ++i)
                 if (klastry[i] == grupa)
@@ -189,13 +187,12 @@ namespace Dendrogramy.Algorytm
             {
                 case MetodaSkupień.PojedynczegoPołączenia:
                     return FunkcjeMatematyczne.MetodaPojedynczegoPołączenia(ref A, ref B);
-                //break;
-                //case MetodaSkupień.CałkowitegoPołączenia:
-                //break;
-                //case MetodaSkupień.CentroidalnegoPołączenia:
-                //break;
-                //case MetodaSkupień.ŚrednichGrupowych:
-                //break;
+                case MetodaSkupień.CałkowitegoPołączenia:
+                    return FunkcjeMatematyczne.MetodaCałkowitegoPołączenia(ref A, ref B);
+                case MetodaSkupień.CentroidalnegoPołączenia:
+                    return FunkcjeMatematyczne.MetodaCentroidalnegoPołączenia(ref A, ref B);
+                case MetodaSkupień.ŚrednichGrupowych:
+                    return FunkcjeMatematyczne.MetodaŚrednichGrupowych(ref A, ref B);
             }
             throw new NotImplementedException();
         }

@@ -83,18 +83,28 @@ namespace Dendrogramy.Algorytm
         {
             ++krok;
             var najbliższaPara = ZnajdźNajbliższąParęKlastrów();
-            PołączKlastry(najbliższaPara);
+            int[] indeksy = ZmagazynujIndeksyKolejnychKlastrów();
+            PołączKlastry(najbliższaPara,indeksy);
             UaktualnijMacierzOdległościMiędzyklastrowych();
             if (WszystkieGrupyNależąDoJednegoKlastra())
                 możnaŁączyćSkupiska = false;
-            var indeksy = ZmagazynujIndeksyKolejnychKlastrów();
-            if (liczbaGrup > 1)
+            if (liczbaGrup > 1 && najbliższaPara.Item2 + 1 < indeksy.Length)
                 return new JednoPołączenie()
                 {
                     IndeksOd = indeksy[najbliższaPara.Item1],
-                    IndeksDo = indeksy.Length > 1 ? indeksy[najbliższaPara.Item2]-1 : indeksy[0],
+                 //   IndeksDo = indeksy.Length > 1 ? indeksy[najbliższaPara.Item2]-1 : indeksy[0],
+                    IndeksDo = indeksy[najbliższaPara.Item2+1]-1,
                     PoziomZagłębienia = poziomyZagłębień[indeksy[najbliższaPara.Item1]]
                 };
+            if (liczbaGrup > 1)
+            {
+                return new JednoPołączenie()
+                {
+                    IndeksOd = indeksy[najbliższaPara.Item1],
+                    IndeksDo = klastry.Length - 1,
+                    PoziomZagłębienia = poziomyZagłębień[indeksy[najbliższaPara.Item1]]
+                };
+            }
             return new JednoPołączenie()
             {
                 IndeksOd = 0,
@@ -132,9 +142,8 @@ namespace Dendrogramy.Algorytm
         /// W tablicy "poziomyZagłębień" ustawia jednakową wartość pokazującą poziom wykresu.
         /// </summary>
         /// <param name="najbliższaPara">Indeksy klastrów, które należy ze sobą połączyć.</param>
-        private void PołączKlastry(Tuple<int,int> najbliższaPara)
+        private void PołączKlastry(Tuple<int,int> najbliższaPara, int[] indeksyKolejnychKlastrów)
         {
-            int[] indeksyKolejnychKlastrów = ZmagazynujIndeksyKolejnychKlastrów();
             int nowyKlaster = klastry[indeksyKolejnychKlastrów[najbliższaPara.Item1]];
             int nowyPoziom = poziomyZagłębień[indeksyKolejnychKlastrów[najbliższaPara.Item1]];
 

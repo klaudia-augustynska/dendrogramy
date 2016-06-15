@@ -52,7 +52,6 @@
   <ItemGroup>
     <Compile Include="AlgorytmTesty\FunkcjeMatematyczneTesty.cs" />
     <Compile Include="AlgorytmTesty\HierarchicznaAnalizaSkupieńTesty.cs" />
-    <Compile Include="AlgorytmTesty\TestDanychZMoodle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

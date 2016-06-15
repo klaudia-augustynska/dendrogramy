@@ -22,6 +22,8 @@ namespace Dendrogramy.Algorytm
         private double szerokośćObszaruNaEtykietyPunktów = 0;
         private double początekWykresu = 0;
 
+        private List<List<Tuple<int,int>>> dendrogram = new List<List<Tuple<int, int>>>(); 
+
         public Rysownik(Size rozmiarPłótna, ObservableCollection<UIElement> listaKształtówDoWykresu)
         {
             this.rozmiarPłótna = rozmiarPłótna;
@@ -31,6 +33,8 @@ namespace Dendrogramy.Algorytm
         public double NarysujPunktyIZwróćWysokośćWykresu(double[] punkty)
         {
             wysokośćWykresu = punkty.Length*odległośćMiędzyPunktamiNaOsiY;
+            
+            UmieśćPunktyNaLiście(punkty);
 
             var największaDługośćLiczby = RysujEtykietyIZwróćIchSzerokość(ref punkty);
 
@@ -40,6 +44,14 @@ namespace Dendrogramy.Algorytm
             RysujTłoDlaWykresu();
 
             return wysokośćWykresu + 2*margines;
+        }
+
+        private void UmieśćPunktyNaLiście(double[] punkty)
+        {
+            // skoro mam narysowane punkty to mam też "zerowy" poziom wykresu
+            dendrogram.Add(new List<Tuple<int, int>>());
+            for (int i = 0; i < punkty.Length; ++i)
+                dendrogram[0].Add(new Tuple<int, int>(i, i));
         }
 
         private void RysujTłoDlaWykresu()
@@ -91,7 +103,21 @@ namespace Dendrogramy.Algorytm
 
         public void RysujPołączenie(JednoPołączenie połączenie)
         {
+            UmieśćPołączenieNaLiście(połączenie);
+
             throw new NotImplementedException();
+        }
+
+        private void UmieśćPołączenieNaLiście(JednoPołączenie połączenie)
+        {
+            if (połączenie.PoziomZagłębienia > dendrogram.Count)
+            {
+                for (int i = dendrogram.Count; i <= połączenie.PoziomZagłębienia; ++i)
+                {
+                    dendrogram.Add(new List<Tuple<int, int>>());
+                }
+            }
+            dendrogram[połączenie.PoziomZagłębienia].Add(new Tuple<int, int>(połączenie.IndeksOd, połączenie.IndeksDo));
         }
     }
 }

@@ -10,6 +10,8 @@ namespace Dendrogramy.Algorytm
     {
         public static double OdległośćEuklidesowa(double b, double c)
         {
+            b = Math.Abs(b);
+            c = Math.Abs(c);
             return Math.Abs(b-c);
         }
         

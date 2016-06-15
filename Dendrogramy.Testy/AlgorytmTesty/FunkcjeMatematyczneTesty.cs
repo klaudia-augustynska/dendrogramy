@@ -22,5 +22,29 @@ namespace Dendrogramy.Testy.AlgorytmTesty
 
             Assert.AreEqual(wynik, otrzymanyWynik);
         }
+
+        [TestMethod]
+        public void OdległośćEuklidesowa_PoprawnieLiczyDlaUjemnych()
+        {
+            double b = -4;
+            double c = -6;
+            double wynik = 2;
+
+            double otrzymanyWynik = FunkcjeMatematyczne.OdległośćEuklidesowa(b, c);
+
+            Assert.AreEqual(wynik, otrzymanyWynik);
+        }
+
+        [TestMethod]
+        public void MetodaPojedynczegoPołączenia_PoprawnieLiczy()
+        {
+            double[] A = { -5, 1, 2, 4 };
+            double[] B = { 7, -6, 9 };
+            double odpowiedź = 1;
+
+            double uzyskanaOdpowiedź = FunkcjeMatematyczne.MetodaPojedynczegoPołączenia(ref A, ref B);
+
+            Assert.AreEqual(odpowiedź, uzyskanaOdpowiedź);
+        }
     }
 }

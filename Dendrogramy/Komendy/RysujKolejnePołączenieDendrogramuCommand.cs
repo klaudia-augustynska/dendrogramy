@@ -38,7 +38,10 @@ namespace Dendrogramy.Komendy
                 algorytm = new HierarchicznaAnalizaSkupień(vm.punkty,vm.metoda);
             }
 
-            algorytm.PołączGrupy();
+            JednoPołączenie połączenie = algorytm.PołączGrupy();
+            if (vm.rysownik == null)
+                throw new ApplicationException("Coś poszło niezgodnie z naturą");
+            vm.rysownik.RysujPołączenie(połączenie);
         }
 
         public event EventHandler CanExecuteChanged;

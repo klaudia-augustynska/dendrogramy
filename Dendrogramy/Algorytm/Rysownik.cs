@@ -88,5 +88,10 @@ namespace Dendrogramy.Algorytm
             }
             return największaDługośćLiczby;
         }
+
+        public void RysujPołączenie(JednoPołączenie połączenie)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

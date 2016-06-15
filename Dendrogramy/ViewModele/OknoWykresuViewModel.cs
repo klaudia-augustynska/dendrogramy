@@ -21,6 +21,7 @@ namespace Dendrogramy.ViewModele
         private string nazwa;
         public MetodaSkupieñ metoda;
         public double[] punkty;
+        public Rysownik rysownik;
 
         private bool _coœJestMielone = false;
 
@@ -78,7 +79,7 @@ namespace Dendrogramy.ViewModele
                     punkty = await parser.WczytajDane();
                     await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     { 
-                        var rysownik = new Rysownik(_rozmiarP³ótna, _listaKszta³tówDoWykresu);
+                        rysownik = new Rysownik(_rozmiarP³ótna, _listaKszta³tówDoWykresu);
                         double wysokoœæ = rysownik.NarysujPunktyIZwróæWysokoœæWykresu(punkty);
                         WysokoœæWykresu = wysokoœæ;
                     }));

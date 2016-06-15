@@ -130,9 +130,9 @@ namespace Dendrogramy.Testy.AlgorytmTesty
             };
             JednoPołączenie grupa3 = new JednoPołączenie()
             {
-                IndeksOd = 0,
-                IndeksDo = 1,
-                PoziomZagłębienia = 1
+                IndeksOd = 3,
+                IndeksDo = 4,
+                PoziomZagłębienia = 2
             };
 
 

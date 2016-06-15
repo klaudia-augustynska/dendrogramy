@@ -8,6 +8,9 @@ using Dendrogramy.ViewModele;
 
 namespace Dendrogramy.Komendy
 {
+    /// <summary>
+    /// Obsługa przycisku "wybierz plik" w oknie głównym programu (MainWindow).
+    /// </summary>
     public class WybierzPlikDanychCommand : ICommand
     {
         private MainWindowViewModel vm;

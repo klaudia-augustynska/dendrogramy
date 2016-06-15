@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Dendrogramy.ViewModele
 {
+    /// <summary>
+    /// Klasa bazowa dla ViewModeli właściwych, aby nie pisać w kółko tego samego.
+    /// </summary>
     public class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;

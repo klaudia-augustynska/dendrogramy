@@ -10,6 +10,9 @@ using Dendrogramy.Enumy;
 
 namespace Dendrogramy.Algorytm
 {
+    /// <summary>
+    /// Algorytm grupowania hierarchicznego. 
+    /// </summary>
     public class HierarchicznaAnalizaSkupień
     {
         private readonly MetodaSkupień metoda;
@@ -22,7 +25,9 @@ namespace Dendrogramy.Algorytm
         private int krok = 0;
 
         public bool możnaŁączyćSkupiska = true;
-
+        
+        /// <param name="liczby">Lista liczb do pogrupowania.</param>
+        /// <param name="metoda">Metoda określania odległości grup</param>
         public HierarchicznaAnalizaSkupień(double[] liczby, MetodaSkupień metoda)
         {
             this.liczby = liczby;
@@ -32,6 +37,11 @@ namespace Dendrogramy.Algorytm
             SkonstruujMacierzOdległościMiędzyklastrowej();
         }
 
+        /// <summary>
+        /// Klastrów jest tyle co liczb i w każdym jest inna wartość na znak, 
+        /// że każda liczba jest w osobnej grupie.
+        /// Każda grupa znajduje się na poziomie zagłębień wykresu = 0, bo to początek.
+        /// </summary>
         private void UmieśćKażdyObiektWOsobnymKlastrze()
         {
             klastry = new int[liczby.Length];
@@ -42,6 +52,12 @@ namespace Dendrogramy.Algorytm
             Array.Clear(poziomyZagłębień, 0, poziomyZagłębień.Length);
         }
 
+        /// <summary>
+        /// Tworzy macierz kwadratową (dolnotrójkątną) wielkości równej ilości liczb.
+        /// (W późniejszych etapach gdy ta macierz będzie się pomniejszać, 
+        /// jej wielkość będzie logicznie określać zmienna "liczbaGrup".)
+        /// Macierz wypełniana jest odległością euklidesową między każdą parą liczb.
+        /// </summary>
         private void SkonstruujMacierzOdległościMiędzyklastrowej()
         {
             liczbaGrup = liczby.Length;
@@ -59,6 +75,10 @@ namespace Dendrogramy.Algorytm
             });
         }
 
+        /// <summary>
+        /// Łączy dwie grupy w jedną zgodnie z algorytmem.
+        /// </summary>
+        /// <returns>Struktura określająca, które dwie grupy z poprzedniego poziomu zostały połączone.</returns>
         public JednoPołączenie PołączGrupy()
         {
             ++krok;
@@ -76,6 +96,10 @@ namespace Dendrogramy.Algorytm
             };
         }
 
+        /// <summary>
+        /// Wyciąga najmniejszą wartość z macierzy odległości.
+        /// </summary>
+        /// <returns>Współrzędne w macierzy, a jednocześnie indeksy liczb i klastrów.</returns>
         private Tuple<int,int> ZnajdźNajbliższąParęKlastrów()
         {
             int minI = 1, minJ = 0;
@@ -96,6 +120,11 @@ namespace Dendrogramy.Algorytm
             return new Tuple<int, int>(a,b);
         }
         
+        /// <summary>
+        /// W tablicy "klastry" ustawia jednakową wartość dla połączonych klastrów.
+        /// W tablicy "poziomyZagłębień" ustawia jednakową wartość pokazującą poziom wykresu.
+        /// </summary>
+        /// <param name="najbliższaPara">Indeksy klastrów, które należy ze sobą połączyć.</param>
         private void PołączKlastry(Tuple<int,int> najbliższaPara)
         {
             int[] indeksyKolejnychKlastrów = ZmagazynujIndeksyKolejnychKlastrów();
@@ -126,6 +155,10 @@ namespace Dendrogramy.Algorytm
             --liczbaGrup;
         }
 
+        /// <summary>
+        /// Uaktualnia odległości między nową, mniejszą ilością klastrów.
+        /// Wielkość macierzy wyznacza "liczbaGrup" w sposób logiczny.
+        /// </summary>
         private void UaktualnijMacierzOdległościMiędzyklastrowych()
         {
             int[] indeksyKolejnychKlastrów = ZmagazynujIndeksyKolejnychKlastrów();
@@ -140,6 +173,14 @@ namespace Dendrogramy.Algorytm
             }
         }
 
+        /// <summary>
+        /// Tworzy tablicę wskaźników na początki kolejnych klastrów w tablicy "klastry".
+        /// Wynika to z budowy tej tablicy, np. jeśli mamy 3 klastry:
+        ///     klastry = [1, 1, 1, 2, 2, 2, 2, 3, 3]
+        /// to funkcja zwróci
+        ///     return    [0,       3,          7   ]
+        /// </summary>
+        /// <returns>Indeksy kolejnych klastrów.</returns>
         private int[] ZmagazynujIndeksyKolejnychKlastrów()
         {
             int[] indeksy = new int[liczbaGrup];
@@ -153,7 +194,9 @@ namespace Dendrogramy.Algorytm
 
             return indeksy;
         }
-
+        
+        /// <param name="grupa">Liczba identyfikująca klaster.</param>
+        /// <returns>Zbiór liczb zgrupowanych tym klastrem.</returns>
         private double[] WeźElementyGrupy(int grupa)
         {
             int indeksPierwszego = 0;
@@ -181,6 +224,12 @@ namespace Dendrogramy.Algorytm
             return zawartość;
         }
         
+        /// <summary>
+        /// Na podstawie wybranej wcześniej metody skupień liczy odległości między klastrami.
+        /// </summary>
+        /// <param name="A">Pierwszy klaster</param>
+        /// <param name="B">Drugi klaster</param>
+        /// <returns>Odległość między klastrami</returns>
         private double PoliczOdległośćMiędzyKlastrami(double[] A, double[] B)
         {
             switch (metoda)
@@ -197,6 +246,10 @@ namespace Dendrogramy.Algorytm
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Warunek czy jeszcze się da grupować klastry.
+        /// </summary>
+        /// <returns>Tak / nie</returns>
         private bool WszystkieGrupyNależąDoJednegoKlastra()
         {
             int jedenKlaster = klastry[0];
@@ -206,6 +259,10 @@ namespace Dendrogramy.Algorytm
             return true;
         }
 
+        /// <summary>
+        /// Jeśli chce się przejrzeć wszystkie elementy macierzy. Żeby było przejrzyściej.
+        /// </summary>
+        /// <param name="action">Funkcja jaką by się umieściło w dwóch pętlach.</param>
         private void PrzejrzyjMacierz(Action<int, int> action)
         {
             for (int i = 1; i < liczbaGrup; ++i)

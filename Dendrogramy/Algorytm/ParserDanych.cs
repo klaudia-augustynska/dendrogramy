@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Dendrogramy.Algorytm
 {
+    /// <summary>
+    /// Parsuje zadany plik do formatu czytelnego dla algorytmu.
+    /// </summary>
     class ParserDanych
     {
         private string nazwa;

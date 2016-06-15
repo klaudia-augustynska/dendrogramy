@@ -9,6 +9,9 @@ using Dendrogramy.ViewModele;
 
 namespace Dendrogramy.Komendy
 {
+    /// <summary>
+    /// Obsługa przycisku powodującego pokazanie się nowego klastra na dendrogramie.
+    /// </summary>
     public class RysujKolejnePołączenieDendrogramuCommand : ICommand
     {
         private OknoWykresuViewModel vm;

@@ -11,6 +11,10 @@ using Dendrogramy.Widoki;
 
 namespace Dendrogramy.Komendy
 {
+    /// <summary>
+    /// Obsługa przycisku rozpoczynającego budowanie nowego dendrogramu. 
+    /// Wywołuje okno rysowania wykresu z odpowiednimi parametrami.
+    /// </summary>
     public class ZbudujNowyDendrogramCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
@@ -31,14 +35,8 @@ namespace Dendrogramy.Komendy
             {
                 if (nazwa.Length > 4)
                     return true;
-                return false;
             }
-            else
-            {
-                Debug.WriteLine("null");
-                return false;
-
-            }
+            return false;
         }
 
         public void Execute(object parameter)

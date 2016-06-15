@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Dendrogramy.Algorytm
 {
+    /// <summary>
+    /// Funkcje używane w algorytmie hierarchicznej analizy skupień.
+    /// </summary>
     public static class FunkcjeMatematyczne
     {
         public static double OdległośćEuklidesowa(double b, double c)

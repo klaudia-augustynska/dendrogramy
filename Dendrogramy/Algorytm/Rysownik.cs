@@ -11,6 +11,9 @@ using System.Windows.Shapes;
 
 namespace Dendrogramy.Algorytm
 {
+    /// <summary>
+    /// Klasa odpowiedzialna za przekształcanie wyników algorytmu na elementy wizualne. Wyniki są spisywane w kolekcji, która jest referencją do kolekcji elementów wizualnych używanych we ViewModelu.
+    /// </summary>
     public class Rysownik
     {
         private Size rozmiarPłótna;

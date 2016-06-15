@@ -9,6 +9,9 @@ using Dendrogramy.Komendy;
 
 namespace Dendrogramy.ViewModele
 {
+    /// <summary>
+    /// ViewModel okna głównego. Pozwala wybrać plik i metodę, a także kontroluje poprawność danych i widoczność przycisków.
+    /// </summary>
     public class MainWindowViewModel : ViewModelBase
     {
         public MainWindowViewModel()

@@ -95,5 +95,18 @@ namespace Dendrogramy.Testy.AlgorytmTesty
             uzyskanaOdpowiedź = Math.Round(uzyskanaOdpowiedź,3);
             Assert.AreEqual(odpowiedź, uzyskanaOdpowiedź);
         }
+
+        [TestMethod]
+        public void MetodaCentroidalnegoPołączenia_PoprawnieLiczy()
+        {
+            double[] A = { -5, 1, 2, 4 }; // Σ = 2, 2/4 = 0.5
+            double[] B = { 7, -6, 9 }; // Σ = 10, 10/3 = 3.3333
+            double odpowiedź = 2.833;
+
+            double uzyskanaOdpowiedź = FunkcjeMatematyczne.MetodaCentroidalnegoPołączenia(ref A, ref B);
+
+            uzyskanaOdpowiedź = Math.Round(uzyskanaOdpowiedź, 3);
+            Assert.AreEqual(odpowiedź, uzyskanaOdpowiedź);
+        }
     }
 }

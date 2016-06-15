@@ -62,5 +62,17 @@ namespace Dendrogramy.Algorytm
             }
             return sumaOdległości / ilość;
         }
+
+        public static double MetodaCentroidalnegoPołączenia(ref double[] A, ref double[] B)
+        {
+            double centroidA = 0, centroidB = 0;
+            foreach (var element in A)
+                centroidA += element;
+            centroidA /= A.Length;
+            foreach (var element in B)
+                centroidB += element;
+            centroidB /= B.Length;
+            return OdległośćEuklidesowa(centroidA, centroidB);
+        }
     }
 }

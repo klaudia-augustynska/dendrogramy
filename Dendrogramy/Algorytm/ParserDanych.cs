@@ -26,9 +26,7 @@ namespace Dendrogramy.Algorytm
 
         private async Task<double[]> ParsujPlik()
         {
-            int ilośćLiniiWPliku = File.ReadLines(nazwa).Count();
-            var liczby = new double[ilośćLiniiWPliku];
-            double[] liczby2;
+            List<double> liczby = new List<double>();
 
             using (var sr = new StreamReader(nazwa))
             {
@@ -42,16 +40,15 @@ namespace Dendrogramy.Algorytm
                     if (wartosc.Length == 0)
                         continue;
                     double liczba = double.Parse(wartosc, format);
-                    liczby[i++] = liczba;
-                }
-
-                liczby2 = new double[i];
-                for (int j = 0; j < i; ++j)
-                {
-                    liczby2[j] = liczby[i];
+                    liczby.Add(liczba);
                 }
             }
-            return liczby2;
+            liczby.Sort();
+
+            double[] liczbyArray = new double[liczby.Count];
+            for (int i = 0; i < liczby.Count; ++i)
+                liczbyArray[i] = liczby[i];
+            return liczbyArray;
         }
     }
 }

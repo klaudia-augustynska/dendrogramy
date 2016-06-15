@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dendrogramy.Algorytm
 {
-    struct JednoPołączenie
+    public struct JednoPołączenie
     {
         public int IndeksOd;
         public int IndeksDo;

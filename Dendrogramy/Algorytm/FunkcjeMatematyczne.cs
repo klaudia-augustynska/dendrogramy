@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Dendrogramy.Algorytm
 {
-    static class FunkcjeMatematyczne
+    public static class FunkcjeMatematyczne
     {
+        public static double OdległośćEuklidesowa(double b, double c)
+        {
+            return Math.Abs(b-c);
+        }
     }
 }

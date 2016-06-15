@@ -100,8 +100,9 @@ namespace Dendrogramy.ViewModele
                     await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     { 
                         rysownik = new Rysownik(_rozmiarP³ótna, _listaKszta³tówDoWykresu);
-                        double wysokoœæ = rysownik.NarysujPunktyIZwróæWysokoœæWykresu(punkty);
-                        WysokoœæWykresu = wysokoœæ;
+                        Size rozmiary = rysownik.NarysujPunktyIZwróæWymiaryWykresu(punkty);
+                        WysokoœæWykresu = rozmiary.Height;
+                        SzerokoœæWykresu = rozmiary.Width;
                     }));
                 });
             }
@@ -120,6 +121,17 @@ namespace Dendrogramy.ViewModele
             {
                 _wysokoœæWykresu = value;
                 NotifyPropertyChanged("WysokoœæWykresu");
+            }
+        }
+
+        private double _szerokoœæWykresu;
+        public double SzerokoœæWykresu
+        {
+            get { return _szerokoœæWykresu; }
+            set
+            {
+                _szerokoœæWykresu = value;
+                NotifyPropertyChanged("SzerokoœæWykresu");
             }
         }
     }

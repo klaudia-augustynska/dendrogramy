@@ -16,13 +16,15 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <ScrollViewer Grid.Row="0" Loaded="ScrollViewer_Loaded">
+        <ScrollViewer Grid.Row="0" Loaded="ScrollViewer_Loaded"
+                      HorizontalScrollBarVisibility="Auto">
 
             <ItemsControl ItemsSource="{Binding ListaKształtówDoWykresu}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <Canvas Name="Płótno" 
                                 Background="White"
+                                Width="{Binding SzerokośćWykresu, Mode=TwoWay}"
                                 Height="{Binding WysokośćWykresu, Mode=TwoWay}"></Canvas>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>

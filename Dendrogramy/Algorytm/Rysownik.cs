@@ -35,9 +35,10 @@ namespace Dendrogramy.Algorytm
         private ObservableCollection<UIElement> listaKształtówDoWykresu;
 
         private double odległośćMiędzyPunktamiNaOsiY = 30.0;
-        private double odległośćMiędzyGrupamiNaOsiX = 60.0;
+        private double odległośćMiędzyGrupamiNaOsiX = 30.0;
         private double margines = 15.0;
         private double wysokośćWykresu = 0;
+        private double szerokośćWykresu = 0;
         private double szerokośćObszaruNaEtykietyPunktów = 0;
         private double początekWykresuOdLewej = 0;
         private double początekWykresuOdGóry = 0;
@@ -59,8 +60,20 @@ namespace Dendrogramy.Algorytm
         /// </summary>
         /// <param name="punkty">Punkty na oś Y</param>
         /// <returns>Wysokość wykresu jaki powstał</returns>
-        public double NarysujPunktyIZwróćWysokośćWykresu(double[] punkty)
+        public Size NarysujPunktyIZwróćWymiaryWykresu(double[] punkty)
         {
+            double potencjalnaSzerokośćWykresu = punkty.Length*odległośćMiędzyGrupamiNaOsiX + początekWykresuOdLewej +
+                                                 margines;
+            double potencjalnieWykresNaCałyEkran = rozmiarPłótna.Width - 30;
+            if (potencjalnaSzerokośćWykresu > potencjalnieWykresNaCałyEkran)
+            {
+                szerokośćWykresu = potencjalnaSzerokośćWykresu + 4*odległośćMiędzyGrupamiNaOsiX;
+            }
+            else
+            {
+                szerokośćWykresu = potencjalnieWykresNaCałyEkran;
+                odległośćMiędzyGrupamiNaOsiX = (rozmiarPłótna.Width - margines*2 - początekWykresuOdLewej)/(punkty.Length+2);
+            }
             wysokośćWykresu = punkty.Length*odległośćMiędzyPunktamiNaOsiY;
             początekWykresuOdGóry = margines + wysokośćObszaruNaEtykietyOsiX;
 
@@ -74,12 +87,12 @@ namespace Dendrogramy.Algorytm
 
             UmieśćPunktyNaLiście(punkty);
 
-            return wysokośćWykresu + początekWykresuOdGóry + margines;
+            return new Size(szerokośćWykresu, wysokośćWykresu + początekWykresuOdGóry + margines);
         }
 
         private void RysujEtykietyOsiX()
         {
-            double koniecWykresu = rozmiarPłótna.Width - margines;
+            double koniecWykresu = szerokośćWykresu;
             int j = 0;
             double doOdjęciaTakŻebyByłoNaŚrodku = odległośćMiędzyGrupamiNaOsiX/2;
             for (double i = początekWykresuOdLewej; i < koniecWykresu; i += odległośćMiędzyGrupamiNaOsiX, ++j)
@@ -134,7 +147,7 @@ namespace Dendrogramy.Algorytm
             Rectangle r = new Rectangle()
             {
                 Fill = Brushes.LightGray,
-                Width = rozmiarPłótna.Width - margines*2 - początekWykresuOdLewej,
+                Width = szerokośćWykresu - margines*2 - początekWykresuOdLewej,
                 Height = wysokośćWykresu
             };
             r.SetValue(Canvas.LeftProperty, początekWykresuOdLewej);

@@ -1,18 +1,10 @@
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Shapes;
-using System.Windows.Threading;
 using Dendrogramy.Algorytm;
 using Dendrogramy.Enumy;
 using Dendrogramy.Komendy;
-using Dendrogramy.Widoki;
 
 namespace Dendrogramy.ViewModele
 {
@@ -22,8 +14,8 @@ namespace Dendrogramy.ViewModele
     /// </summary>
     public class OknoWykresuViewModel : ViewModelBase
     {
-        private string nazwa;
-        public MetodaSkupieñ metoda;
+        private readonly string nazwa;
+        public readonly MetodaSkupieñ metoda;
         public double[] punkty;
         public Rysownik rysownik;
 

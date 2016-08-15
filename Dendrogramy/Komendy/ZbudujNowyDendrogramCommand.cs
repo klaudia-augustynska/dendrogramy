@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 using Dendrogramy.ViewModele;
 using Dendrogramy.Widoki;
@@ -18,7 +12,7 @@ namespace Dendrogramy.Komendy
     public class ZbudujNowyDendrogramCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
-        private MainWindowViewModel vm;
+        private readonly MainWindowViewModel vm;
 
         public ZbudujNowyDendrogramCommand(MainWindowViewModel vm)
         {

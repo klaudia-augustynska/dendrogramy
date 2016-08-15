@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using Dendrogramy.Enumy;
 
 namespace Dendrogramy.Algorytm
@@ -22,9 +15,8 @@ namespace Dendrogramy.Algorytm
         private int[] poziomyZagłębień;
         private int liczbaGrup;
         private double[][] macierzOdległościMiędzyklastrowej;
-        private int krok = 0;
 
-        public bool możnaŁączyćSkupiska = true;
+        public bool MożnaŁączyćSkupiska { get; private set; } = true;
         
         /// <param name="liczby">Lista liczb do pogrupowania, posortowana.</param>
         /// <param name="metoda">Metoda określania odległości grup</param>
@@ -81,13 +73,12 @@ namespace Dendrogramy.Algorytm
         /// <returns>Struktura określająca, które dwie grupy z poprzedniego poziomu zostały połączone.</returns>
         public JednoPołączenie PołączGrupy()
         {
-            ++krok;
             var najbliższaPara = ZnajdźNajbliższąParęKlastrów();
             int[] indeksy = ZmagazynujIndeksyKolejnychKlastrów();
             PołączKlastry(najbliższaPara,indeksy);
             UaktualnijMacierzOdległościMiędzyklastrowych();
             if (WszystkieGrupyNależąDoJednegoKlastra())
-                możnaŁączyćSkupiska = false;
+                MożnaŁączyćSkupiska = false;
             if (liczbaGrup > 1 && najbliższaPara.Item2 + 1 < indeksy.Length)
                 return new JednoPołączenie()
                 {
@@ -155,10 +146,7 @@ namespace Dendrogramy.Algorytm
 
             for (int i = przelatujOd; i <= przelatujDo; ++i)
             {
-                if (klastry[i] != nowyKlaster)
-                    klastry[i] = nowyKlaster;
-                
-                // znajdź największy poziom w nowym klastrze
+                klastry[i] = nowyKlaster;
                 if (nowyPoziom < poziomyZagłębień[i])
                     nowyPoziom = poziomyZagłębień[i];
             }
@@ -256,9 +244,9 @@ namespace Dendrogramy.Algorytm
                 case MetodaSkupień.CentroidalnegoPołączenia:
                     return FunkcjeMatematyczne.MetodaCentroidalnegoPołączenia(ref A, ref B);
                 case MetodaSkupień.ŚrednichGrupowych:
+                default:
                     return FunkcjeMatematyczne.MetodaŚrednichGrupowych(ref A, ref B);
             }
-            throw new NotImplementedException();
         }
 
         /// <summary>

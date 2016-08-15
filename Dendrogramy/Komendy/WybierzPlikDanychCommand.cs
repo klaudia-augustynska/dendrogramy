@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Dendrogramy.ViewModele;
 
@@ -13,7 +9,7 @@ namespace Dendrogramy.Komendy
     /// </summary>
     public class WybierzPlikDanychCommand : ICommand
     {
-        private MainWindowViewModel vm;
+        private readonly MainWindowViewModel vm;
 
         public WybierzPlikDanychCommand(MainWindowViewModel vm)
         {

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Dendrogramy.Algorytm
@@ -11,9 +9,9 @@ namespace Dendrogramy.Algorytm
     /// <summary>
     /// Parsuje zadany plik do formatu czytelnego dla algorytmu.
     /// </summary>
-    class ParserDanych
+    internal class ParserDanych
     {
-        private string nazwa;
+        private readonly string nazwa;
 
         public ParserDanych(string nazwa)
         {

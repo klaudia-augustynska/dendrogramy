@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -13,41 +9,24 @@ using System.Windows.Shapes;
 namespace Dendrogramy.Algorytm
 {
     /// <summary>
-    /// Klasa odpowiedzialna za przekształcanie wyników algorytmu na elementy wizualne. Wyniki są spisywane w kolekcji, która jest referencją do kolekcji elementów wizualnych używanych we ViewModelu.
+    /// Klasa odpowiedzialna za przekształcanie wyników algorytmu na elementy wizualne. Wyniki są spisywane w kolekcji ObservableCollection.
     /// </summary>
     public class Rysownik
     {
-        private struct GrupaNaLiście
-        {
-            public int IndeksOd;
-            public int IndeksDo;
-            public double MiejsceOd;
-            public double MiejsceDo;
-            public int Poziom;
-            public override string ToString()
-            {
-                return String.Format("Od:{0}\tDo:{1}\tMiejsceOd:{2}\tMiejsceDo:{3}\tPoziom:{4}", IndeksOd, IndeksDo, MiejsceOd,
-                    MiejsceDo,Poziom);
-            }
-        }
+        private readonly Size rozmiarPłótna;
+        private readonly ObservableCollection<UIElement> listaKształtówDoWykresu;
+        private readonly List<List<GrupaNaLiście>> dendrogram = new List<List<GrupaNaLiście>>();
 
-        private Size rozmiarPłótna;
-        private ObservableCollection<UIElement> listaKształtówDoWykresu;
-
-        private double odległośćMiędzyPunktamiNaOsiY = 30.0;
+        private const double odległośćMiędzyPunktamiNaOsiY = 30.0;
+        private const double margines = 15.0;
+        private const double wysokośćObszaruNaEtykietyOsiX = 30;
+        private const double rozdzielenieKlastrów = 2;
         private double odległośćMiędzyGrupamiNaOsiX = 30.0;
-        private double margines = 15.0;
         private double wysokośćWykresu = 0;
         private double szerokośćWykresu = 0;
         private double szerokośćObszaruNaEtykietyPunktów = 0;
         private double początekWykresuOdLewej = 0;
         private double początekWykresuOdGóry = 0;
-        private double wysokośćObszaruNaEtykietyOsiX = 30;
-        private double rozdzielenieKlastrów = 2;
-
-        private int krok = -20;
-
-        private List<List<GrupaNaLiście>> dendrogram = new List<List<GrupaNaLiście>>(); 
 
         public Rysownik(Size rozmiarPłótna, ObservableCollection<UIElement> listaKształtówDoWykresu)
         {
@@ -64,7 +43,7 @@ namespace Dendrogramy.Algorytm
         {
             double potencjalnaSzerokośćWykresu = punkty.Length*odległośćMiędzyGrupamiNaOsiX + początekWykresuOdLewej +
                                                  margines;
-            double potencjalnieWykresNaCałyEkran = rozmiarPłótna.Width - 30;
+            double potencjalnieWykresNaCałyEkran = rozmiarPłótna.Width - 2*margines;
             if (potencjalnaSzerokośćWykresu > potencjalnieWykresNaCałyEkran)
             {
                 szerokośćWykresu = potencjalnaSzerokośćWykresu + 4*odległośćMiędzyGrupamiNaOsiX;
@@ -192,7 +171,6 @@ namespace Dendrogramy.Algorytm
             for (int i = dendrogram.Count; i < połączenie.PoziomZagłębienia; ++i)
                 dendrogram.Add(new List<GrupaNaLiście>());
 
-            ++krok;
             double x1, x2, x3, y1, y2;
             if (połączenie.PoziomZagłębienia == 0)
             {
@@ -210,15 +188,8 @@ namespace Dendrogramy.Algorytm
                 x1 = (grupa1.Poziom+1) * odległośćMiędzyGrupamiNaOsiX + początekWykresuOdLewej;
                 x3 = (grupa2.Poziom+1) * odległośćMiędzyGrupamiNaOsiX + początekWykresuOdLewej;
                 x2 = (połączenie.PoziomZagłębienia + 1) * odległośćMiędzyGrupamiNaOsiX + początekWykresuOdLewej;
-                y1 = (grupa1.MiejsceOd + grupa1.MiejsceDo)/2;
-                y2 = (grupa2.MiejsceOd + grupa2.MiejsceDo) / 2;
-
-                //DUPA
-
-                Debug.WriteLine("Nowe połączenie: {0}", połączenie);
-                Debug.WriteLine("Grupa1: {0}", grupa1);
-                Debug.WriteLine("grupa2: {0}", grupa2);
-                Debug.WriteLine("x1:{0}, x2: {1}, y1:{2}, y2:{3}", x1, x2, y1, y2);
+                y1 = (grupa1.MiejsceOd + grupa1.MiejsceDo) / 2;
+                y2 = (grupa2.MiejsceOd + grupa2.MiejsceDo) / 2;;
             }
 
             RysujLinięTąUGóry(x1, x2, y1);
@@ -230,7 +201,6 @@ namespace Dendrogramy.Algorytm
 
         private GrupaNaLiście ZnajdźGrupęDrugą(JednoPołączenie połączenie)
         {
-            // przeszukuj kolejne poziomy od wyższego do niższego
             for (int i = połączenie.PoziomZagłębienia - 1; i >= 0; --i)
             {
                 for (int j = 0; j < dendrogram[i].Count; ++j)
@@ -246,7 +216,6 @@ namespace Dendrogramy.Algorytm
 
         private GrupaNaLiście ZnajdźGrupęPierwszą(JednoPołączenie połączenie)
         {
-            // przeszukuj kolejne poziomy od wyższego do niższego
             for (int i = połączenie.PoziomZagłębienia - 1; i >= 0; --i)
             {
                 for (int j = 0; j < dendrogram[i].Count; ++j)
@@ -325,6 +294,19 @@ namespace Dendrogramy.Algorytm
                 Poziom = połączenie.PoziomZagłębienia
             });
         }
-
+        
+        private struct GrupaNaLiście
+        {
+            public int IndeksOd;
+            public int IndeksDo;
+            public double MiejsceOd;
+            public double MiejsceDo;
+            public int Poziom;
+            public override string ToString()
+            {
+                return String.Format("Od:{0}\tDo:{1}\tMiejsceOd:{2}\tMiejsceDo:{3}\tPoziom:{4}", IndeksOd, IndeksDo, MiejsceOd,
+                    MiejsceDo, Poziom);
+            }
+        }
     }
 }

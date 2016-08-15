@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows.Input;
 using Dendrogramy.Enumy;
 using Dendrogramy.Komendy;
@@ -20,12 +16,12 @@ namespace Dendrogramy.ViewModele
             WybierzPlikDanych = new WybierzPlikDanychCommand(this);
         }
 
-        public IEnumerable<Tuple<string, MetodaSkupień>> ListaMetodSkupień { get; private set; } = new List<Tuple<string, MetodaSkupień>>
+        public Dictionary<MetodaSkupień, string> ListaMetodSkupień { get; private set; } = new Dictionary<MetodaSkupień, string>
         {
-            new Tuple<string, MetodaSkupień>("Pojedynczego połączenia",MetodaSkupień.PojedynczegoPołączenia),
-            new Tuple<string, MetodaSkupień>("Całkowitego połączenia",MetodaSkupień.CałkowitegoPołączenia),
-            new Tuple<string, MetodaSkupień>("Średnich grupowych",MetodaSkupień.ŚrednichGrupowych),
-            new Tuple<string, MetodaSkupień>("Centroidalnego połączenia", MetodaSkupień.CentroidalnegoPołączenia)
+            { MetodaSkupień.PojedynczegoPołączenia, "Pojedynczego połączenia" },
+            { MetodaSkupień.CałkowitegoPołączenia, "Całkowitego połączenia" },
+            { MetodaSkupień.ŚrednichGrupowych, "Średnich grupowych" },
+            { MetodaSkupień.CentroidalnegoPołączenia, "Centroidalnego połączenia" }
         };
 
         public ZbudujNowyDendrogramCommand ZbudujNowyDendrogramCommand { get; private set; } 

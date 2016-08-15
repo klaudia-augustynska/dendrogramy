@@ -4,5 +4,5 @@
 
 Program pozwala na zilustrowanie procesu powstawania dendrogramów na przykładzie zbioru liczb. Wczytujemy plik zawierający różne liczby i krok po kroku widzimy, jak algorytm znajduje "najbliższe sobie" liczby a następnie łączy je w grupy. Są też do wyboru 4 metody ustalania "podobieństwa" między grupami, więc można zobaczyć jaki to ma wpływ na wynik.
 
-* Technologie: **.NET/C#, WPF, XAML**.
+* Technologie: **.NET/C#, WPF, XAML, Unit Test Framework**.
 * Wzorce projektowe: **MVVM, Command**.
